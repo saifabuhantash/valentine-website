@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نور ❤️</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #ff1493 0%, #ff69b4 50%, #fff0f5 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* القلوب المتحركة */
+        .heart {
+            position: fixed;
+            font-size: 30px;
+            pointer-events: none;
+            animation: float 3s ease-in infinite;
+            opacity: 0.8;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) scale(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) scale(1) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 30px;
+            padding: 50px;
+            max-width: 600px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(255, 20, 147, 0.4);
+            text-align: center;
+            position: relative;
+            z-index: 10;
+            animation: slideIn 0.8s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            font-size: 3em;
+            background: linear-gradient(135deg, #ff1493, #ff69b4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            color: #ff1493;
+            margin-bottom: 30px;
+            font-weight: 300;
+        }
+
+        /* عداد الأيام */
+        .counter-section {
+            background: linear-gradient(135deg, #ffe4e1, #fff0f5);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            border: 2px solid #ff69b4;
+        }
+
+        .counter-label {
+            font-size: 0.9em;
+            color: #c71585;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .counter-input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ff1493;
+            border-radius: 8px;
+            font-size: 1em;
+            margin-bottom: 15px;
+            text-align: center;
+            font-family: inherit;
+        }
+
+        .counter-display {
+            font-size: 2.5em;
+            font-weight: bold;
+            background: linear-gradient(135deg, #ff1493, #ff69b4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .days-label {
+            font-size: 1em;
+            color: #ff1493;
+            margin-top: 10px;
+        }
+
+        /* الأزرار */
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 1.1em;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .open-message-btn {
+            background: linear-gradient(135deg, #ff1493, #ff69b4);
+            color: white;
+            flex: 1;
+            min-width: 200px;
+            box-shadow: 0 10px 25px rgba(255, 20, 147, 0.3);
+        }
+
+        .open-message-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(255, 20, 147, 0.5);
+        }
+
+        .open-message-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .music-btn {
+            background: linear-gradient(135deg, #ff69b4, #ffb6c1);
+            color: white;
+            min-width: 150px;
+            box-shadow: 0 10px 25px rgba(255, 105, 180, 0.3);
+        }
+
+        .music-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(255, 105, 180, 0.5);
+        }
+
+        .music-btn.playing {
+            background: linear-gradient(135deg, #ff1493, #c71585);
+        }
+
+        /* الرسالة */
+        .message-box {
+            display: none;
+            background: linear-gradient(135deg, #fff0f5, #ffe4e1);
+            border-radius: 20px;
+            padding: 30px;
+            margin-top: 30px;
+            border: 3px solid #ff1493;
+            animation: messageAppear 0.5s ease-out;
+            position: relative;
+            max-height: 0;
+            overflow: hidden;
+        }
+
+        .message-box.show {
+            display: block;
+            animation: messageSlideIn 0.8s ease-out forwards;
+        }
+
+        @keyframes messageSlideIn {
+            0% {
+                opacity: 0;
+                max-height: 0;
+                transform: scale(0.8);
+            }
+            100% {
+                opacity: 1;
+                max-height: 1000px;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes messageAppear {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .message-box::before {
+            content: '❤️';
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 2em;
+            animation: heartBeat 1s ease-in-out infinite;
+        }
+
+        @keyframes heartBeat {
+            0%, 100% {
+                transform: translateX(-50%) scale(1);
+            }
+            50% {
+                transform: translateX(-50%) scale(1.2);
+            }
+        }
+
+        .message-content {
+            font-size: 1.1em;
+            line-height: 2;
+            color: #c71585;
+            font-style: italic;
+            white-space: pre-line;
+        }
+
+        .message-signature {
+            margin-top: 20px;
+            font-size: 1.2em;
+            font-weight: bold;
+            background: linear-gradient(135deg, #ff1493, #ff69b4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* الموسيقى */
+        .music-section {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 30px;
+        }
+
+        .music-icon {
+            font-size: 1.5em;
+        }
+
+        .music-label {
+            font-size: 0.9em;
+            color: #ff1493;
+            flex: 1;
+        }
+
+        audio {
+            display: none;
+        }
+
+        /* استجابة الهاتف */
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px;
+                border-radius: 20px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            .subtitle {
+                font-size: 1em;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .open-message-btn,
+            .music-btn {
+                width: 100%;
+                min-width: auto;
+            }
+
+            .message-content {
+                font-size: 1em;
+            }
+
+            .counter-display {
+                font-size: 2em;
+            }
+        }
+
+        /* تأثيرات إضافية */
+        .pulse {
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        .sparkle {
+            position: absolute;
+            font-size: 1.5em;
+            pointer-events: none;
+            animation: sparkleAnim 1s ease-out forwards;
+        }
+
+        @keyframes sparkleAnim {
+            0% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0) translateY(-30px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <audio id="romanticMusic">
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="container">
+        <h1>نور ❤️</h1>
+        <p class="subtitle">رسالة حبي لك</p>
+
+        <!-- عداد الأيام -->
+        <div class="counter-section">
+            <div class="counter-label">تاريخ البداية:</div>
+            <input type="date" id="startDate" class="counter-input">
+            <div class="counter-display" id="counter">0</div>
+            <div class="days-label">يوم معك ❤️</div>
+        </div>
+
+        <!-- الأزرار -->
+        <div class="button-group">
+            <button class="open-message-btn" onclick="toggleMessage()">افتح الرسالة</button>
+            <button class="music-btn" onclick="toggleMusic()">
+                <span class="music-icon">🎵</span> موسيقى
+            </button>
+        </div>
+
+        <!-- الرسالة -->
+        <div class="message-box" id="messageBox">
+            <div class="message-content">نور حياتي، مبعرف كيف بدي اعبر عن قد ايش انا بحبك.
+ انتي مش شخص عادي دخل حياتي، انتي حياتي كلها.
+                     انتي اكثر شخص حبيتو
+                     اكثر شخص بضحك معو
+           اكثر شخص برتاح معو و بكون عطبيعتي
+                  اكثر شخص بحب احكي معو
+       بتمنى ما نفترق و نضل زي محنا و ما نبعد ابدا 
+                            بحبككككك 💗</div>
+            <div class="message-signature">
+                💗 حبيبتي 💗
+            </div>
+        </div>
+
+        <!-- قسم الموسيقى -->
+        <div class="music-section">
+            <span class="music-icon">🎶</span>
+            <span class="music-label" id="musicLabel">اضغط على الزر لتشغيل الموسيقى</span>
+        </div>
+    </div>
+
+    <script>
+        // إضافة قلوب متحركة أكثر
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            const hearts = ['❤️', '💗', '💕', '💖', '💝'];
+            heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.animationDuration = (Math.random() * 2 + 3) + 's';
+            heart.style.fontSize = (Math.random() * 30 + 25) + 'px';
+            document.body.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 5000);
+        }
+
+        // إنشاء قلب كل 150ms (أكثر تكراراً)
+        setInterval(createHeart, 150);
+
+        // التحكم بالرسالة
+        function toggleMessage() {
+            const messageBox = document.getElementById('messageBox');
+            messageBox.classList.toggle('show');
+            
+            if (messageBox.classList.contains('show')) {
+                createSparkles();
+            }
+        }
+
+        // إنشاء تأثيرات براقة
+        function createSparkles() {
+            for (let i = 0; i < 8; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                sparkle.textContent = '✨';
+                sparkle.style.left = Math.random() * 80 + 10 + '%';
+                sparkle.style.top = Math.random() * 60 + 20 + '%';
+                document.querySelector('.container').appendChild(sparkle);
+
+                setTimeout(() => sparkle.remove(), 1000);
+            }
+        }
+
+        // التحكم بالموسيقى
+        const audio = document.getElementById('romanticMusic');
+        const musicBtn = document.querySelector('.music-btn');
+        const musicLabel = document.getElementById('musicLabel');
+
+        function toggleMusic() {
+            if (audio.paused) {
+                audio.play();
+                musicBtn.classList.add('playing');
+                musicLabel.textContent = '⏸ إيقاف الموسيقى';
+            } else {
+                audio.pause();
+                musicBtn.classList.remove('playing');
+                musicLabel.textContent = '▶ تشغيل الموسيقى';
+            }
+        }
+
+        // إعادة تعيين تسمية الزر عند انتهاء الموسيقى
+        audio.addEventListener('ended', () => {
+            musicBtn.classList.remove('playing');
+            musicLabel.textContent = '▶ تشغيل الموسيقى';
+        });
+
+        // عداد الأيام
+        const startDateInput = document.getElementById('startDate');
+        const counterDisplay = document.getElementById('counter');
+
+        // تحميل التاريخ المحفوظ من localStorage
+        const savedDate = localStorage.getItem('valentineStartDate');
+        if (savedDate) {
+            startDateInput.value = savedDate;
+            updateCounter();
+        } else {
+            // تعيين تاريخ اليوم كقيمة افتراضية
+            const today = new Date();
+            const year = today.getFullYear();
+            const month = String(today.getMonth() + 1).padStart(2, '0');
+            const day = String(today.getDate()).padStart(2, '0');
+            startDateInput.value = `${year}-${month}-${day}`;
+        }
+
+        // تحديث العداد عند تغيير التاريخ
+        startDateInput.addEventListener('change', () => {
+            localStorage.setItem('valentineStartDate', startDateInput.value);
+            updateCounter();
+        });
+
+        function updateCounter() {
+            const startDate = new Date(startDateInput.value);
+            const today = new Date();
+            
+            // إزالة الوقت للحصول على عدد الأيام بدقة
+            startDate.setHours(0, 0, 0, 0);
+            today.setHours(0, 0, 0, 0);
+            
+            const diffTime = today - startDate;
+            const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+            
+            counterDisplay.textContent = Math.max(0, diffDays);
+            
+            // إضافة تأثير pulse
+            counterDisplay.classList.remove('pulse');
+            setTimeout(() => counterDisplay.classList.add('pulse'), 10);
+        }
+
+        // تحديث العداد كل ساعة
+        setInterval(updateCounter, 3600000);
+
+        // تحديث العداد عند تحميل الصفحة
+        updateCounter();
+    </script>
+</body>
+</html>
